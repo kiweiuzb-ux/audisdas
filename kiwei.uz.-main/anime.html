@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Filmlar - Kiwei.Uz</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🌸 Kiwei.Uz</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Bosh sahifa</a></li>
+                <li><a href="index.html">Seriallar</a></li>
+                <li><a href="anime.html">🎬 Filmlar</a></li>
+                <li id="userHeaderNav" style="display: none;">
+                    <span id="userGreeting" style="color: var(--primary); margin-right: 1rem;">👤 User</span>
+                    <button class="login-btn" onclick="logout()" style="background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.4); color: #ff9999;">Chiqish</button>
+                </li>
+                <li id="adminHeaderNav" style="display: none;">
+                    <span style="color: var(--primary); margin-right: 1rem;">🔐 Admin</span>
+                    <a href="admin.html" class="login-btn" style="display: inline-block; text-decoration: none; text-align: center;">Admin Panel</a>
+                    <button class="login-btn" onclick="adminLogout()" style="background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.4); color: #ff9999;">Chiqish</button>
+                </li>
+                <li id="loginHeaderNav">
+                    <button class="login-btn" onclick="window.location.href='login.html'">🔓 Kirish</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION FOR FILMS -->
+    <section class="hero">
+        <h1>🎬 Anime Filmlar</h1>
+        <p>O'zbek tilida dub qilingan sifatli anime filmlar</p>
+        <p style="font-size: 0.9rem; color: #a78bfa; margin-top: 1rem;">🎭 Boshqa janrlarni ko'rish uchun bosh sahifaga qayting</p>
+    </section>
+
+    <!-- SEARCH BAR -->
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Film qidirish..." autocomplete="off">
+        </div>
+        <div class="search-dropdown" id="searchDropdown"></div>
+    </div>
+
+    <!-- ANIME DETAIL (will be filled when ?id=... present) -->
+    <section class="anime-detail" id="animeDetail" style="display: none; padding: 2rem;">
+        <!-- Detail content injected by js/main.js -->
+    </section>
+
+    <!-- ANIME FILMS GRID -->
+    <section class="anime-grid" id="animeGrid">
+        <!-- Dinamik ravishda to'ldiriladi -->
+    </section>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+        <h3>Hozircha Film Yo'q</h3>
+        <p>Admin paneldan anime film qo'shishni boshlang!</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌸 Kiwei.Uz</h3>
+                <p>Anime ixlosmandlari uchun mo'ljallangan zamonaviy platforma. O'zbek tilida dub qilingan sifatli animelar!</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Ijtimoiy Tarmoqlar</h4>
+                <div class="social-links">
+                    <a href="https://t.me/KiweiUz" target="_blank" title="Telegram">📱 Telegram</a>
+                    <a href="https://youtube.com/@kiweiuz" target="_blank" title="YouTube">▶️ YouTube</a>
+                    <a href="https://instagram.com/kiweiuz" target="_blank" title="Instagram">📸 Instagram</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Tarif Rejalar</h4>
+                <ul class="tariff-list">
+                    <li>✨ Bepul: Barcha anime</li>
+                    <li>⭐ Premium: Ad-odsiz tomosha</li>
+                    <li>🎬 Pro: HD + Offline</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Kiwei.Uz. Barcha huquqlar himoyalangan.</p>
+            <p><small>HTML, CSS va JavaScript orqali yaratilgan.</small></p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Sahifa yuklanganda anime detailini ko'rsatish
+        window.addEventListener('load', function() {
+            displayAnimeDetail();
+        });
+    </script>
+</body>
+</html>

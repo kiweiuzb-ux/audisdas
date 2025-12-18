@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - AnimeHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🌸 AnimeHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Bosh sahifa</a></li>
+                <li><button class="logout-btn" onclick="adminLogoutAndRedirect()">Chiqish</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- LOGIN FORM -->
+    <div id="loginSection" class="login-form">
+        <h2>🔐 Admin Kirish</h2>
+        <div class="form-group">
+            <label for="adminUsername">Foydalanuvchi Nomi:</label>
+            <input type="text" id="adminUsername" placeholder="admin">
+        </div>
+        <div class="form-group">
+            <label for="adminPassword">Parol:</label>
+            <input type="password" id="adminPassword" placeholder="admin123">
+        </div>
+        <button class="btn" onclick="adminLogin()">Kirish</button>
+        <p style="text-align:center; color:var(--text-light); margin-top:1rem; font-size:0.9rem;">Default: admin / admin123</p>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="adminPanel" style="display: none;">
+        <div class="admin-container">
+            <!-- GENRE MANAGEMENT SECTION -->
+            <div class="admin-section">
+                <h3>🎭 Janrlarni Boshqarish</h3>
+                <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+                    <input type="text" id="newGenreInput" placeholder="Yangi janr nomi" style="flex:1; padding:0.8rem; border-radius:8px; border:1px solid rgba(99,41,253,0.06); background:var(--dark-bg); color:var(--text);">
+                    <button class="btn" onclick="addNewGenre()">Qo'shish</button>
+                </div>
+                <div id="genresList" style="display:flex; flex-wrap:wrap; gap:0.8rem;">
+                    <!-- Genres will be listed here -->
+                </div>
+            </div>
+
+            <!-- ADD ANIME SECTION -->
+            <div class="admin-section">
+                <h3>➕ Yangi Anime Qo'shish</h3>
+                <div class="form-group">
+                    <label for="animeName">Anime Nomi:</label>
+                    <input type="text" id="animeName" placeholder="Anime nomi">
+                </div>
+                <div class="form-group">
+                    <label for="animeDescription">Tavsif:</label>
+                    <textarea id="animeDescription" placeholder="Anime haqida tavsif yozing..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="animeGenres">Janrlar (vergul bilan ajratilgan):</label>
+                    <input type="text" id="animeGenres" placeholder="Action, Adventure, Fantasy">
+                </div>
+                <div class="form-group">
+                    <label for="animePoster">Poster URL:</label>
+                    <input type="url" id="animePoster" placeholder="https://example.com/poster.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="animeStatus">Status:</label>
+                    <select id="animeStatus">
+                        <option value="Yangi">Yangi</option>
+                        <option value="Davom etmoqda">Davom etmoqda</option>
+                        <option value="Tugallangan">Tugallangan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="animeRating">Reyting (1-10):</label>
+                    <input type="number" id="animeRating" min="1" max="10" placeholder="8.5">
+                </div>
+                <div class="form-group">
+                    <label for="animeLink">Telegram Kanal Linki:</label>
+                    <input type="url" id="animeLink" placeholder="https://t.me/anime_channel">
+                </div>
+                <div class="form-group">
+                    <label for="animeYear">Yili:</label>
+                    <input type="number" id="animeYear" placeholder="2024">
+                </div>
+                <div class="form-group">
+                    <label for="animeEpisodes">Epizodlar soni (agar film bo'lsa 1):</label>
+                    <input type="number" id="animeEpisodes" placeholder="24">
+                </div>
+                <div class="form-group">
+                    <label for="animeStudio">Studio:</label>
+                    <input type="text" id="animeStudio" placeholder="Studio name">
+                </div>
+                <div class="form-group">
+                    <label for="animeDirector">Rejissor:</label>
+                    <input type="text" id="animeDirector" placeholder="Director name">
+                </div>
+                <div class="form-group">
+                    <label for="animeTrailer">Trailer (YouTube URL):</label>
+                    <input type="url" id="animeTrailer" placeholder="https://youtube.com/watch?v=...">
+                </div>
+                <div class="form-group">
+                    <label for="animeScreenshots">Screenshots (vergul bilan URL):</label>
+                    <input type="text" id="animeScreenshots" placeholder="https://.../1.jpg, https://.../2.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="animeNews">Latest News (har bir yangi yangilikni yangi qatorga yozing):</label>
+                    <textarea id="animeNews" placeholder="Yangi dub qo'shildi\nTrailer chiqdi"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="animeType">Turi:</label>
+                    <select id="animeType">
+                        <option value="serial">Serial</option>
+                        <option value="film">Film</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="addAnime()">Qo'shish</button>
+            </div>
+
+            <!-- ANIME LIST SECTION -->
+            <div class="admin-section">
+                <h3>📋 Anime Ro'yxati</h3>
+                <div style="display:flex; gap:0.6rem; align-items:center; margin-bottom:0.6rem;">
+                    <input type="file" id="importAnimeFile" accept="application/json" style="display:none" onchange="importAnimeFromFile(event)">
+                    <button class="btn" onclick="document.getElementById('importAnimeFile').click()">📤 Import JSON</button>
+                    <button class="btn" onclick="exportAnimeToFile()">📥 Export JSON</button>
+                    <small style="color:var(--text-light); margin-left:0.6rem;">To'g'ridan-to'g'ri faylga yozish uchun eksport qilib lokal repo'ga joylang.</small>
+                </div>
+                <div class="anime-list" id="animeListAdmin">
+                    <!-- Dinamik ravishda to'ldiriladi -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeEditModal()">×</button>
+            <h3>✏️ Anime Tahrirlash</h3>
+            <div class="form-group">
+                <label for="editAnimeName">Anime Nomi:</label>
+                <input type="text" id="editAnimeName">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeDescription">Tavsif:</label>
+                <textarea id="editAnimeDescription"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editAnimeGenres">Janrlar:</label>
+                <input type="text" id="editAnimeGenres">
+            </div>
+            <div class="form-group">
+                <label for="editAnimePoster">Poster URL:</label>
+                <input type="url" id="editAnimePoster">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeStatus">Status:</label>
+                <select id="editAnimeStatus">
+                    <option value="Yangi">Yangi</option>
+                    <option value="Davom etmoqda">Davom etmoqda</option>
+                    <option value="Tugallangan">Tugallangan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editAnimeRating">Reyting:</label>
+                <input type="number" id="editAnimeRating" min="1" max="10">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeLink">Telegram Kanal Linki:</label>
+                <input type="url" id="editAnimeLink">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeYear">Yili:</label>
+                <input type="number" id="editAnimeYear">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeEpisodes">Epizodlar soni:</label>
+                <input type="number" id="editAnimeEpisodes">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeStudio">Studio:</label>
+                <input type="text" id="editAnimeStudio">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeDirector">Rejissor:</label>
+                <input type="text" id="editAnimeDirector">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeTrailer">Trailer URL:</label>
+                <input type="url" id="editAnimeTrailer">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeScreenshots">Screenshots (vergul bilan):</label>
+                <input type="text" id="editAnimeScreenshots">
+            </div>
+            <div class="form-group">
+                <label for="editAnimeNews">Latest News (har bir satr yangi yangilik):</label>
+                <textarea id="editAnimeNews"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editAnimeType">Turi:</label>
+                <select id="editAnimeType">
+                    <option value="serial">Serial</option>
+                    <option value="film">Film</option>
+                </select>
+            </div>
+            <button class="btn" onclick="saveEditAnime()">Saqlash</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌸 Kiwei.Uz</h3>
+                <p>Anime ixlosmandlari uchun mo'ljallangan zamonaviy platforma. O'zbek tilida dub qilingan sifatli animelar!</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Ijtimoiy Tarmoqlar</h4>
+                <div class="social-links">
+                    <a href="https://t.me/KiweiUz" target="_blank" title="Telegram">📱 Telegram</a>
+                    <a href="https://youtube.com/@kiweiuz" target="_blank" title="YouTube">▶️ YouTube</a>
+                    <a href="https://instagram.com/kiweiuz" target="_blank" title="Instagram">📸 Instagram</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Tarif Rejalar</h4>
+                <ul class="tariff-list">
+                    <li>✨ Bepul: Barcha anime</li>
+                    <li>⭐ Premium: Ad-odsiz tomosha</li>
+                    <li>🎬 Pro: HD + Offline</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Kiwei.Uz. Barcha huquqlar himoyalangan.</p>
+            <p><small>HTML, CSS va JavaScript orqali yaratilgan.</small></p>
+        </div>
+    </footer>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

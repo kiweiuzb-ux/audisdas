@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeHub - Anime Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🌸 KiweiUz</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Bosh sahifa</a></li>
+                <li><a href="#" onclick="scrollToGenres()">Janrlar</a></li>
+                <li><a href="anime.html">🎬 Anime Filmlar</a></li>
+                <li id="userHeaderNav" style="display: none;">
+                    <span id="userGreeting" style="color: var(--primary); margin-right: 1rem;">👤 User</span>
+                    <button class="login-btn" onclick="logout()" style="background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.4); color: #ff9999;">Chiqish</button>
+                </li>
+                <li id="adminHeaderNav" style="display: none;">
+                    <span style="color: var(--primary); margin-right: 1rem;">🔐 Admin</span>
+                    <a href="admin.html" class="login-btn" style="display: inline-block; text-decoration: none; text-align: center;">Admin Panel</a>
+                    <button class="login-btn" onclick="adminLogout()" style="background: rgba(255,100,100,0.2); border: 1px solid rgba(255,100,100,0.4); color: #ff9999;">Chiqish</button>
+                </li>
+                <li id="loginHeaderNav">
+                    <button class="login-btn" onclick="window.location.href='login.html'">🔓 Kirish</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- TOP AUTO CAROUSEL UNDER HEADER -->
+    <section class="top-carousel-section">
+        <div class="top-carousel" id="topCarousel">
+            <!-- auto-rotating items inserted here -->
+        </div>
+    </section>
+
+    <!-- SEARCH BAR -->
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Anime qidirish..." autocomplete="off">
+        </div>
+        <div class="search-dropdown" id="searchDropdown"></div>
+    </div>
+
+    <!-- HERO BANNER -->
+    <section class="hero">
+        <h1>🌟 Anime Dunyosiga Xush Kelibsiz</h1>
+        <p>Kiwei.Uz — anime ixlosmandlari uchun mo'ljallangan zamonaviy platforma</p>
+        <p style="font-size: 0.95rem; color: #cbd5e1; margin-top: 1rem; line-height: 1.6;">
+            Saytimizda turli studiyalar tomonidan o'zbek tilida dub qilingan sifatli animelar jamlangan. 
+            Kelajakda esa Kiwei.Uz jamoasi tomonidan tayyorlangan original o'zbekcha dub animelarni ham taqdim etishni rejalashtirganmiz.
+        </p>
+        <p style="font-size: 0.9rem; color: #a78bfa; margin-top: 1rem;">💝 Anime tichlangan qo'shilsin deb, Admin Panel'ni ochib yangi anime qo'shing</p>
+        <button class="hero-btn" onclick="document.querySelector('.slider-section').scrollIntoView({behavior: 'smooth'})">
+            Hozir Boshlang
+        </button>
+    </section>
+
+    <!-- FEATURED SECTION -->
+    <section class="featured-section">
+        <h2>🔥 Tanlanganlar</h2>
+        <div class="featured-carousel" id="featuredCarousel">
+            <!-- Top rated anime will be injected here -->
+        </div>
+        <div class="subscribe-cta">
+            <p>Yangiliklardan xabardor bo'ling — yangilanishlar va eksklyuziv qo'shimchalar uchun obuna bo'ling.</p>
+            <button class="hero-btn" onclick="alert('Obuna muvaffaqiyatli qo\'shildi!')">Obuna bo'lish</button>
+        </div>
+    </section>
+
+    <!-- LATEST RELEASES SLIDER -->
+    <section class="slider-section">
+        <h2>📺 So'nggi Relizlar</h2>
+        <div class="slider-wrapper">
+            <div class="slider" id="slider">
+                <!-- Dinamik ravishda to'ldiriladi -->
+            </div>
+        </div>
+    </section>
+
+    <!-- GENRES FILTER SECTION -->
+    <section class="genres-filter-section">
+        <h2>🎭 Janrlar bo'yicha Qidirish</h2>
+        <div class="genres-filter" id="genresFilter">
+            <!-- Dinamik ravishda to'ldiriladi -->
+        </div>
+        
+        <h2 style="margin-top: 2rem;">📊 Status bo'yicha Qidirish</h2>
+        <div class="genres-filter" id="statusFilter">
+            <!-- Dinamik ravishda to'ldiriladi -->
+        </div>
+        
+        <h2 style="margin-top: 2rem;">⭐ Reyting bo'yicha Qidirish</h2>
+        <div class="genres-filter" id="ratingFilter">
+            <!-- Dinamik ravishda to'ldiriladi -->
+        </div>
+        
+        <button class="btn-clear-filter" onclick="clearAllFilters()" id="clearFilterBtn" style="display: none;">✖️ Barcha Filterni Tozalash</button>
+    </section>
+
+    <!-- ANIME GRID -->
+    <section class="anime-grid" id="animeGrid">
+        <!-- Dinamik ravishda to'ldiriladi -->
+    </section>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+        <h3>Hozircha Anime Yo'q</h3>
+        <p>Admin paneldan anime qo'shishni boshlang!</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🌸 Kiwei.Uz</h3>
+                <p>AKiwei.Uz — anime ixlosmandlari uchun mo‘ljallangan zamonaviy platforma. Saytimizda hozirda turli studiyalar tomonidan o‘zbek tilida dub qilingan sifatli animelar jamlangan. Kelajakda esa Kiwei.Uz jamoasi tomonidan tayyorlangan original o‘zbekcha dub animelarni ham taqdim etishni rejalashtirganmiz. Maqsadimiz — anime olamini o‘zbek tomoshabinlariga yanada yaqin va tushunarli qilish.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Ijtimoiy Tarmoqlar</h4>
+                <div class="social-links">
+                    <a href="https://t.me/KiweiUz" target="_blank" title="Telegram">📱 Telegram</a>
+                    <a href="https://youtube.com/@kiweiuz" target="_blank" title="YouTube">▶️ YouTube</a>
+                    <a href="https://instagram.com/kiweiuz" target="_blank" title="Instagram">📸 Instagram</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Tarif Rejalar</h4>
+                <ul class="tariff-list">
+                    <li>✨ Bepul: Barcha anime</li>
+                    <li>⭐ Premium: Ad-odsiz tomosha</li>
+                    <li>🎬 Pro: HD + Offline</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Kiwei.Uz. Barcha huquqlar himoyalangan.</p>
+            <p><small>HTML, CSS va JavaScript orqali yaratilgan.</small></p>
+        </div>
+    </footer>
+
+    <!-- SUGGESTION FAB -->
+    <button class="fab" id="suggestFab" onclick="openSuggestionModal()">✉️</button>
+
+    <!-- SUGGESTION MODAL -->
+    <div class="suggestion-modal" id="suggestionModal">
+        <div class="suggestion-box">
+            <h3>Taklif yoki xato haqida xabar bering</h3>
+            <textarea id="suggestionText" placeholder="Fikr yoki taklif yozing..."></textarea>
+            <div class="suggestion-actions">
+                <button class="btn" onclick="closeSuggestionModal()">Bekor</button>
+                <button class="btn" onclick="saveSuggestion()">Yuborish</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
